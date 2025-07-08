@@ -1,6 +1,7 @@
 import {HeartIcon, Search,  ShoppingBasket} from "lucide-react";
 import { Dispatch, SetStateAction } from "react";
 import SearchBar from "./SearchBar";
+import Link from "next/link";
 
 export default function Header(
     { onSearch }: { onSearch: Dispatch<SetStateAction<string>> }
@@ -21,9 +22,9 @@ export default function Header(
             </section>
             
             <section className="text-black flex justify-center items-center gap-x-2">
-                <div className="bg-white p-2 rounded-full">
+                <Link href={"/cart"} className="bg-white p-2 rounded-full">
                     <ShoppingBasket size={20}/>
-                </div>
+                </Link>
                 <div className="bg-white rounded-full inline-block p-2 ">
                     <HeartIcon fill="red" stroke="none" size={20}/>
                 </div>

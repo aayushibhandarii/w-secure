@@ -1,16 +1,19 @@
 "use client";
 import { CartContext } from "@/context/CartContext";
+import { Check } from "lucide-react";
 import Image from "next/image";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 export default function Product({id, name,image } : {
     id : number,
     name : string,
     image : string,
 }) {
     const [ cart, setCart ] = useContext(CartContext);
+    const [clicked,setClicked] = useState(false);
     console.log(cart);
   const addToCart = () => {
     const existingItem = cart.find((item)=>item.id ===id);
+    setClicked(true);
     if(existingItem){
       setCart(
         cart.map((item) =>
@@ -20,6 +23,9 @@ export default function Product({id, name,image } : {
     }else{
       setCart([...cart,{id,count:1}]);
     }
+    setTimeout(()=>{
+      setClicked(false);
+    },3000)
   };
   useEffect(() => {
         // Save cart to localStorage whenever it changes
@@ -38,9 +44,9 @@ export default function Product({id, name,image } : {
       {/* <button className="absolute inset-0 bg-black bg-opacity-100 group-hover:bg-opacity-50 flex items-center justify-center opacity-100 group-hover:opacity-100 transition-opacity duration-300">
           <span className="text-white font-semibold">Add to Cart</span>
     </button> */}
-    <button className="mt-2 bg-black text-white py-1 px-4 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300" onClick={addToCart}>
-    Add to Cart
-  </button> 
+    <button className="mt-2 bg-black text-white py-1 px-4 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300" onClick={!clicked ? addToCart : undefined}>
+      {!clicked ? "Add to Cart" : <div className="flex">Added<Check /></div>}
+    </button> 
       {/* <p className="text-gray-600">${price.toFixed(2)}</p>
       <p className="text-yellow-500">{'★'.repeat(Math.round(rating))}</p>
       <button className="mt-2 bg-blue-600 text-white py-1 px-4 rounded hover:bg-blue-700">
